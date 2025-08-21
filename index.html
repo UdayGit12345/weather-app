@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather forecast</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+<body class="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+    <div class="max-w-md w-full p-4">
+    <h1 class="text-2xl font-bold text-center mb-4">☁ Weather Forecast</h1>
+
+     <!-- Search form -->
+    <form id="searchForm" class="flex gap-2 mb-4">
+      <input id="cityInput" type="text" placeholder="Enter city" class="flex-1 border rounded px-3 py-2" />
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Search</button>
+    </form>
+
+    <!-- Geolocation button -->
+    <button id="geoBtn" class="w-full bg-gray-800 text-white px-4 py-2 rounded mb-4">Use My Location</button>
+
+    <!-- Error messages -->
+    <div id="errorBox" class="hidden text-red-600 text-sm mb-2"></div>
+
+     <!-- Current weather -->
+    <div class="bg-white shadow rounded p-4 mb-4">
+      <h2 id="cityName" class="text-xl font-semibold mb-2">—</h2>
+      <p><span id="currentTemp">—</span><span id="currentUnit">°C</span>, <span id="weatherDesc">—</span></p>
+      <p>Humidity: <span id="humidity">—</span>%</p>
+      <p>Wind: <span id="wind">—</span> km/h</p>
+    </div>
+
+    <!-- Forecast -->
+    <div>
+      <h3 class="font-semibold mb-2">5-Day Forecast</h3>
+      <div id="forecastGrid" class="grid grid-cols-2 gap-2"></div>
+    </div>
+  </div>
+
+  <!-- Template for forecast cards -->
+  <template id="forecastCardTpl">
+    <div class="border rounded p-2 text-sm">
+      <div data-date>—</div>
+      <div data-emoji>—</div>
+      <div data-temp>—</div>
+      <div data-hum>—%</div>
+      <div data-wind>— km/h</div>
+    </div>
+  </template>
+
+  <script type="module" src="./app.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+
+
+
+
+    
+</body>
+</html>
