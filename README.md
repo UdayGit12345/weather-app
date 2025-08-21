@@ -1,20 +1,46 @@
-# Weather Forecast Starter
+# 🌦 Weather Forecast Application  
 
-A simple weather forecast application using HTML, Tailwind CSS, and JavaScript.
+A simple and responsive *Weather Forecast Application* built using *HTML, Tailwind CSS, and JavaScript*.  
+It retrieves real-time weather data using the [OpenWeatherMap API](https://openweathermap.org/api).  
 
-## Setup
-1. Get an API key from [OpenWeatherMap](https://openweathermap.org/api).
-2. Replace YOUR_OPENWEATHERMAP_API_KEY in app.js with your key.
-3. Open index.html in your browser.
+---
 
-## Features
-- Search by city name
-- Search by current location (geolocation)
-- Current weather: temperature, humidity, wind, description
-- 5-day forecast (midday data points)
+## 📌 Objective  
+The goal of this project is to provide users with:  
+- *Current weather conditions*  
+- *Location-based forecasts*  
+- *Extended 5-day forecast*  
+- An intuitive and responsive UI  
 
-## Notes
-- This is a starter version. Extend it with unit toggle, recent cities dropdown, error handling UI, and creative styling.
-=======
-# weather-app
->>>>>>> 40770bc764355b5b0c6ef114007abe994fb73a75
+---
+
+## ⚡ Features  
+
+✔ Search weather by *city name*  
+✔ Get weather by *current location (Geolocation API)*  
+✔ Display *temperature, humidity, wind speed, and conditions*  
+✔ *5-day forecast* with icons and details  
+✔ *Temperature unit toggle* (°C/°F)  
+✔ *Custom weather alerts* (e.g., above 40°C)  
+✔ Recently searched cities stored in dropdown (using local/session storage)  
+✔ Responsive UI for *desktop, iPad Mini, and iPhone SE*  
+✔ Background dynamically changes with weather conditions (e.g., rainy = rainy background)  
+✔ Handles invalid input and API errors gracefully  
+
+---
+
+## 🛠 Tech Stack  
+
+- *HTML5*  
+- *Tailwind CSS* (styling & responsive design)  
+- *JavaScript (ES6)*  
+- *OpenWeatherMap API*  
+
+---
+
+## 🚀 Setup & Installation  
+
+1. Clone this repository:  
+   ```bash
+   git clone https://github.com/your-username/weather-app.git
+   cd weather-app
