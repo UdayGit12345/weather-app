@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Weather Forecast Starter
 
 A simple weather forecast application using HTML, Tailwind CSS, and JavaScript.
