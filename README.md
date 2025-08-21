@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Weather Forecast Starter
 
 A simple weather forecast application using HTML, Tailwind CSS, and JavaScript.
@@ -15,3 +16,6 @@ A simple weather forecast application using HTML, Tailwind CSS, and JavaScript.
 
 ## Notes
 - This is a starter version. Extend it with unit toggle, recent cities dropdown, error handling UI, and creative styling.
+=======
+# weather-app
+>>>>>>> 40770bc764355b5b0c6ef114007abe994fb73a75
