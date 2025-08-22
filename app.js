@@ -1,6 +1,8 @@
 const API_KEY = "9e4d8aae5349fb8456e032b5f6db91e5";
 const BASE = "https://api.openweathermap.org/data/2.5";
 
+let currentUnit = "metric"; // default Celsius
+
 const els = {
   cityName: document.getElementById("cityName"),
   currentTemp: document.getElementById("currentTemp"),
@@ -14,6 +16,8 @@ const els = {
   cityInput: document.getElementById("cityInput"),
   geoBtn: document.getElementById("geoBtn"),
   errorBox: document.getElementById("errorBox"),
+  recentCities: document.getElementById("recentCities"),
+  unitToggle: document.getElementById("unitToggle"),
 };
 
 // --- Event listeners ---
@@ -35,17 +39,30 @@ els.geoBtn.addEventListener("click", () => {
   });
 });
 
+els.recentCities.addEventListener("change", (e) => {
+  if (e.target.value) {
+    fetchWeather(e.target.value);
+  }
+});
+
+els.unitToggle.addEventListener("change", (e) => {
+  currentUnit = e.target.value;
+  const city = els.cityName.textContent;
+  if (city && city !== "—") fetchWeather(city);
+});
+
 // --- Fetch by city name ---
 async function fetchWeather(city) {
   try {
     clearError();
     const current = await fetchJson(
-      `${BASE}/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`
+      `${BASE}/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=${currentUnit}`
     );
     const forecast = await fetchJson(
-      `${BASE}/forecast?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`
+      `${BASE}/forecast?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=${currentUnit}`
     );
     renderWeather(current, forecast);
+    saveCity(current.name);
   } catch (err) {
     showError(err.message);
   }
@@ -56,12 +73,13 @@ async function fetchWeatherByCoords(lat, lon) {
   try {
     clearError();
     const current = await fetchJson(
-      `${BASE}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+      `${BASE}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${currentUnit}`
     );
     const forecast = await fetchJson(
-      `${BASE}/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+      `${BASE}/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${currentUnit}`
     );
     renderWeather(current, forecast);
+    saveCity(current.name);
   } catch (err) {
     showError(err.message);
   }
@@ -77,9 +95,22 @@ async function fetchJson(url) {
 function renderWeather(current, forecast) {
   els.cityName.textContent = current.name;
   els.currentTemp.textContent = Math.round(current.main.temp);
+  els.currentUnit.textContent = currentUnit === "metric" ? "°C" : "°F";
   els.weatherDesc.textContent = current.weather[0].description;
   els.humidity.textContent = current.main.humidity;
-  els.wind.textContent = Math.round(current.wind.speed * 3.6);
+  els.wind.textContent =
+    currentUnit === "metric"
+      ? Math.round(current.wind.speed * 3.6)
+      : Math.round(current.wind.speed);
+
+  // ⚠ Alert if temp > 40°C (104°F)
+  if (
+    (currentUnit === "metric" && current.main.temp > 40) ||
+    (currentUnit === "imperial" && current.main.temp > 104)
+  ) {
+    alert("⚠ High temperature warning! Stay safe.");
+  }
+
   renderForecast(forecast.list);
 }
 
@@ -100,10 +131,12 @@ function renderForecast(list) {
       card.querySelector("[data-date]").textContent = date;
       card.querySelector("[data-emoji]").textContent = "☁";
       card.querySelector("[data-temp]").textContent =
-        Math.round(item.main.temp) + "°C";
+        Math.round(item.main.temp) + (currentUnit === "metric" ? "°C" : "°F");
       card.querySelector("[data-hum]").textContent = item.main.humidity + "%";
       card.querySelector("[data-wind]").textContent =
-        Math.round(item.wind.speed * 3.6) + " km/h";
+        currentUnit === "metric"
+          ? Math.round(item.wind.speed * 3.6) + " km/h"
+          : Math.round(item.wind.speed) + " mph";
       els.forecastGrid.appendChild(card);
     });
 }
@@ -117,7 +150,29 @@ function clearError() {
   els.errorBox.classList.add("hidden");
 }
 
-// --- Reminder ---
-if (API_KEY === "YOUR_REAL_API_KEY_HERE") {
-  console.warn("⚠ Please replace API_KEY with your OpenWeatherMap key");
+// --- Recent Cities ---
+function saveCity(city) {
+  let cities = JSON.parse(localStorage.getItem("recentCities")) || [];
+  city = city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
+  if (!cities.includes(city)) {
+    cities.push(city);
+    if (cities.length > 5) cities.shift();
+    localStorage.setItem("recentCities", JSON.stringify(cities));
+  }
+  loadRecentCities();
 }
+
+function loadRecentCities() {
+  const cities = JSON.parse(localStorage.getItem("recentCities")) || [];
+  if (cities.length > 0) {
+    els.recentCities.classList.remove("hidden");
+    els.recentCities.innerHTML = `<option value="">-- Recent Cities --</option>`;
+    cities.forEach((city) => {
+      const opt = document.createElement("option");
+      opt.value = city;
+      opt.textContent = city;
+      els.recentCities.appendChild(opt);
+    });
+  }
+}
+loadRecentCities();

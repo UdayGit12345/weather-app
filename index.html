@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather forecast</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./style.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Forecast</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body class="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
-    <div class="max-w-md w-full p-4">
+  <div class="max-w-md w-full p-4">
     <h1 class="text-2xl font-bold text-center mb-4">☁ Weather Forecast</h1>
 
-     <!-- Search form -->
+    <!-- Search form -->
     <form id="searchForm" class="flex gap-2 mb-4">
       <input id="cityInput" type="text" placeholder="Enter city" class="flex-1 border rounded px-3 py-2" />
       <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Search</button>
@@ -21,10 +20,24 @@
     <!-- Geolocation button -->
     <button id="geoBtn" class="w-full bg-gray-800 text-white px-4 py-2 rounded mb-4">Use My Location</button>
 
+    <!-- Recent cities -->
+    <select id="recentCities" class="w-full border rounded p-2 mb-4 hidden">
+      <option value="">-- Recent Cities --</option>
+    </select>
+
+    <!-- Unit toggle -->
+    <div class="flex items-center mb-4">
+      <label class="mr-2">Units:</label>
+      <select id="unitToggle" class="border rounded p-2">
+        <option value="metric">°C</option>
+        <option value="imperial">°F</option>
+      </select>
+    </div>
+
     <!-- Error messages -->
     <div id="errorBox" class="hidden text-red-600 text-sm mb-2"></div>
 
-     <!-- Current weather -->
+    <!-- Current weather -->
     <div class="bg-white shadow rounded p-4 mb-4">
       <h2 id="cityName" class="text-xl font-semibold mb-2">—</h2>
       <p><span id="currentTemp">—</span><span id="currentUnit">°C</span>, <span id="weatherDesc">—</span></p>
@@ -52,11 +65,5 @@
 
   <script type="module" src="./app.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-
-
-
-
-
-    
 </body>
 </html>
