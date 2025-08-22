@@ -181,7 +181,6 @@ function clearError() {
   els.errorBox.textContent = "";
   els.errorBox.classList.add("hidden");
 }
-
 // --- Recent Cities ---
 function saveCity(city) {
   let cities = JSON.parse(localStorage.getItem("recentCities")) || [];
