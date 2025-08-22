@@ -1,3 +1,21 @@
 body {
   font-family: system-ui, sans-serif;
 }
+
+/* 🌞 Sunny background */
+.bg-sunny {
+  background: linear-gradient(to right, #fbc531, #e1b12c);
+  transition: background 0.5s ease-in-out;
+}
+
+/* 🌧 Rainy background */
+.bg-rainy {
+  background: linear-gradient(to right, #74b9ff, #0984e3);
+  transition: background 0.5s ease-in-out;
+}
+
+/* ☁ Cloudy background */
+.bg-cloudy {
+  background: linear-gradient(to right, #dfe6e9, #b2bec3);
+  transition: background 0.5s ease-in-out;
+}

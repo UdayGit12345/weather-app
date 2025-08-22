@@ -16,9 +16,38 @@ const els = {
   cityInput: document.getElementById("cityInput"),
   geoBtn: document.getElementById("geoBtn"),
   errorBox: document.getElementById("errorBox"),
+  alertBox: document.getElementById("alertBox"),
   recentCities: document.getElementById("recentCities"),
   unitToggle: document.getElementById("unitToggle"),
 };
+
+// ✅ Show alert if temperature > 40°C (104°F)
+function checkExtremeTemperature(tempCelsius) {
+  if (
+    (currentUnit === "metric" && tempCelsius > 40) ||
+    (currentUnit === "imperial" && tempCelsius > 104)
+  ) {
+    els.alertBox.textContent =
+      "⚠ Heat Alert! Stay hydrated and avoid peak sunlight hours.";
+    els.alertBox.classList.remove("hidden");
+  } else {
+    els.alertBox.classList.add("hidden");
+  }
+}
+
+// ✅ Change background based on weather condition
+function updateBackground(condition) {
+  const body = document.body;
+  body.classList.remove("bg-sunny", "bg-rainy", "bg-cloudy");
+
+  if (condition.includes("rain")) {
+    body.classList.add("bg-rainy");
+  } else if (condition.includes("cloud")) {
+    body.classList.add("bg-cloudy");
+  } else if (condition.includes("clear")) {
+    body.classList.add("bg-sunny");
+  }
+}
 
 // --- Event listeners ---
 els.searchForm.addEventListener("submit", (e) => {
@@ -103,13 +132,11 @@ function renderWeather(current, forecast) {
       ? Math.round(current.wind.speed * 3.6)
       : Math.round(current.wind.speed);
 
-  // ⚠ Alert if temp > 40°C (104°F)
-  if (
-    (currentUnit === "metric" && current.main.temp > 40) ||
-    (currentUnit === "imperial" && current.main.temp > 104)
-  ) {
-    alert("⚠ High temperature warning! Stay safe.");
-  }
+  // ✅ Call alert instead of browser alert()
+  checkExtremeTemperature(current.main.temp);
+
+  // ✅ Update background dynamically
+  updateBackground(current.weather[0].description.toLowerCase());
 
   renderForecast(forecast.list);
 }
@@ -129,7 +156,11 @@ function renderForecast(list) {
       const item = days[date];
       const card = els.forecastTpl.content.cloneNode(true);
       card.querySelector("[data-date]").textContent = date;
-      card.querySelector("[data-emoji]").textContent = "☁";
+
+      // ✅ Add weather icon
+      const iconUrl = `https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
+      card.querySelector("[data-emoji]").innerHTML = `<img src="${iconUrl}" class="w-12 h-12 mx-auto">`;
+
       card.querySelector("[data-temp]").textContent =
         Math.round(item.main.temp) + (currentUnit === "metric" ? "°C" : "°F");
       card.querySelector("[data-hum]").textContent = item.main.humidity + "%";
@@ -141,6 +172,7 @@ function renderForecast(list) {
     });
 }
 
+// --- Error handling ---
 function showError(msg) {
   els.errorBox.textContent = msg;
   els.errorBox.classList.remove("hidden");

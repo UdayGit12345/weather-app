@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Weather Forecast</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css" />
 </head>
-<body class="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+<body class="min-h-screen flex flex-col items-center justify-center transition-all duration-500 bg-gray-100">
+
   <div class="max-w-md w-full p-4">
+
     <h1 class="text-2xl font-bold text-center mb-4">☁ Weather Forecast</h1>
+
+    <!-- ✅ Alert box -->
+    <div id="alertBox" class="hidden bg-red-500 text-white p-3 rounded-lg mt-2 shadow-md text-center"></div>
 
     <!-- Search form -->
     <form id="searchForm" class="flex gap-2 mb-4">
-      <input id="cityInput" type="text" placeholder="Enter city" class="flex-1 border rounded px-3 py-2" />
+      <input id="cityInput" type="text" placeholder="Enter city"
+        class="flex-1 border rounded px-3 py-2" />
       <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Search</button>
     </form>
+
+    <!-- ✅ Error box -->
+    <div id="errorBox" class="hidden bg-red-400 text-white p-2 rounded mb-3 text-center"></div>
 
     <!-- Geolocation button -->
     <button id="geoBtn" class="w-full bg-gray-800 text-white px-4 py-2 rounded mb-4">Use My Location</button>
@@ -26,44 +35,39 @@
     </select>
 
     <!-- Unit toggle -->
-    <div class="flex items-center mb-4">
-      <label class="mr-2">Units:</label>
-      <select id="unitToggle" class="border rounded p-2">
+    <div class="mb-4">
+      Units:
+      <select id="unitToggle" class="border rounded px-2 py-1">
         <option value="metric">°C</option>
         <option value="imperial">°F</option>
       </select>
     </div>
 
-    <!-- Error messages -->
-    <div id="errorBox" class="hidden text-red-600 text-sm mb-2"></div>
-
     <!-- Current weather -->
-    <div class="bg-white shadow rounded p-4 mb-4">
-      <h2 id="cityName" class="text-xl font-semibold mb-2">—</h2>
-      <p><span id="currentTemp">—</span><span id="currentUnit">°C</span>, <span id="weatherDesc">—</span></p>
-      <p>Humidity: <span id="humidity">—</span>%</p>
-      <p>Wind: <span id="wind">—</span> km/h</p>
+    <div class="bg-white shadow-md rounded-lg p-4 mb-4 text-center">
+      <h2 id="cityName" class="text-xl font-semibold">—</h2>
+      <p><span id="currentTemp">--</span><span id="currentUnit">°C</span>, <span id="weatherDesc">—</span></p>
+      <p>Humidity: <span id="humidity">--</span>%</p>
+      <p>Wind: <span id="wind">--</span></p>
     </div>
 
-    <!-- Forecast -->
-    <div>
-      <h3 class="font-semibold mb-2">5-Day Forecast</h3>
-      <div id="forecastGrid" class="grid grid-cols-2 gap-2"></div>
-    </div>
+    <!-- Forecast grid -->
+    <h3 class="font-bold mb-2">5-Day Forecast</h3>
+    <div id="forecastGrid" class="grid grid-cols-2 gap-4"></div>
+
+    <!-- Template for forecast cards -->
+    <template id="forecastCardTpl">
+      <div class="p-4 rounded-lg shadow-md bg-white text-center">
+        <p data-date class="font-bold"></p>
+        <div data-emoji class="my-2">☁</div>
+        <p data-temp></p>
+        <p>💧 <span data-hum></span></p>
+        <p>🌬 <span data-wind></span></p>
+      </div>
+    </template>
+
   </div>
 
-  <!-- Template for forecast cards -->
-  <template id="forecastCardTpl">
-    <div class="border rounded p-2 text-sm">
-      <div data-date>—</div>
-      <div data-emoji>—</div>
-      <div data-temp>—</div>
-      <div data-hum>—%</div>
-      <div data-wind>— km/h</div>
-    </div>
-  </template>
-
-  <script type="module" src="./app.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="./app.js"></script>
 </body>
 </html>
